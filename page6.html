@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./css/myStyle.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class = "main flex-column">
+        <div class="step flex-right" >
+                <div class=" flex-center  preSelected ">
+                    
+                    <i class="fa fa-angle-left" style="font-size:24px"></i>
+                    <div class="normal-font">الجنس</div>
+                    <div class="circle">&nbsp;1</div>
+                     
+                </div>
+                <div class="flex-center preSelected ">
+                        <i class="fa fa-angle-left" style="font-size:24px"></i>
+                        <div class="normal-font">الموقع</div>
+                        <div class="circle">&nbsp;2</div>
+                    
+                </div>
+                <div class=" flex-center preSelected">
+                    <i class="fa fa-angle-left" style="font-size:24px"></i>
+                    <div class="normal-font">العضوية</div>
+                    <div class="circle">&nbsp;3</div>
+                </div>
+                <div class="flex-center preSelected ">
+                
+                    <i class="fa fa-angle-left" style="font-size:24px"></i>
+                    <div class="normal-font">البيانات الشخصية</div>
+                    <div class="circle" >&nbsp;4</div>
+                    </div>
+               
+                <div class="flex-center selected1 ">
+                    <div class="btn flex-center  selected ">
+                    <i class="fa fa-angle-left" style="font-size:24px"></i>
+                    <div class="normal-font">الحساب</div>
+                    <div class="circle">&nbsp;5</div>
+                </div>
+                </div>
+                <div class=" flex-center ">
+                    <i class="fa fa-angle-left" style="font-size:24px"></i>
+                    <div class="normal-font">الدفع</div>
+                    <div class="numclass"  >&nbsp;6</div>
+                </div>  
+            </div>
+         <div class="content flex-center flex-column whiteback" >
+            
+                <div class="content-subject">الحساب</div>
+                <div class="mini-subject" style="margin-bottom:5%;">الرجاء ادخال بيانات حسابك: </div>
+                    <div class=" flex-right" style="width:85%">
+                        <div class ="flex column " style="width:40%; padding:20px;">
+                            <div class = "big-font" style="padding-right:0px;">البريد الإلكتروني </div>
+                            <input class = "info-input" placeholder=" 55 123 4567">
+                            <div class = "big-font" style="padding-right:0px;"> رقم الجوال</div>
+                            <input class = "info-input" placeholder="رقم الجوال ">
+                        </div>
+                        
+                        <div class ="flex column " style="width:40%; padding:20px;">
+                            <div class = "big-font" style="padding-right:0px;"> تأكيد كلمة المرور </div>
+                            <input type=" password" class = "info-input" placeholder="تأكيد كلمة المرور">
+                            <div class = "big-font" style="padding-right:0px;">كلمة المرور </div>
+                            <input type="password" class = "info-input combobox" placeholder="كلمة المرور    ">
+                        </div>
+                    </div>
+                    <div class="flex-center">
+                        <div class="flex-align">
+                            <div class="big-font">أوافق على</div>  
+                            <div class ="big-font" style="color:#FFAB00">الشروط والأحكام</div>
+                            <img src="./source/5-2.png" style="width:35px;height:35px;">
+                        </div>
+                     </div>
+                    <div class="flex-center">
+                        <button type = "button" class ="btns yellow-btn" onclick="afterPage()">التالي</button>
+                        <button type = "button" class ="btns grey-btn" onclick="beforePage()">السابق</button>
+                    </div>
+
+                </div>
+       
+    </div>
+
+<script>
+     function afterPage() {
+        window.location.href = "./page6.html";
+      }
+      function beforePage() {
+        window.location.href = "./page4 .html";
+      }
+</script> 
+    
+</body>
+</html>
