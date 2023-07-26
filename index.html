@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./css/mystyle.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script>
+    function changeCurrentPage(){
+        document.getElementById("m-content-1").style.display = "none";
+        document.getElementById("m-contents").style.display = "block";
+        elementL = document.getElementById("leftBtn");
+        elementR = document.getElementById("rightBtn");
+        if( elementL.classList.contains("back-grey")==true)
+            {
+                elementL.classList.remove("back-grey");
+                elementL.classList.add("back-yellow");
+                elementR.classList.remove("back-yellow");
+                elementR.classList.add("back-grey");
+        }
+        else if( elementL.classList.contains("back-yellow")==true)
+            {
+               
+                elementL.classList.remove("back-yellow");
+                elementL.classList.add("back-grey");
+                elementR.classList.remove("back-grey");
+                elementR.classList.add("back-yellow");
+        }
+
+        
+    }
+    function changePreferPage(){
+        document.getElementById("m-contents").style.display = "none";
+        document.getElementById("m-content-1").style.display = "block";
+        elementL = document.getElementById("leftBtn");
+        elementR = document.getElementById("rightBtn");
+        if( elementL.classList.contains("back-grey")==true)
+            {
+                elementL.classList.remove("back-grey");
+                elementL.classList.add("back-yellow");
+                elementR.classList.remove("back-yellow");
+                elementR.classList.add("back-grey");
+                
+        }
+        else if( elementL.classList.contains("back-yellow")==true)
+            {
+               
+                elementL.classList.remove("back-yellow");
+                elementL.classList.add("back-grey");
+                elementR.classList.remove("back-grey");
+                elementR.classList.add("back-yellow");
+        }
+    }
+</script>
+</head>
+<body class="f-align-r" >
+    <div class="main f-col">
+        
+     <!-- **********************button part****************************-->
+     
+    <div class="main-topic f-row-r white">
+        الحصص
+    </div>
+    <div class="content-top f-row">
+        <button class="top-button back-grey" id="leftBtn" onclick="changeCurrentPage()">الحصص</button>
+        <button class=" back-yellow top-button  " id="rightBtn"onclick="changePreferPage()">الحجوزات</button>
+    </div>
+    <!-- <div class="f-stretch f-row-r">
+        <i class="fa fa-battery-2 white"></i>
+        <i class="fa fa-wifi white"></i>
+        <i class="fa fa-signal white"></i>
+        <div class="time white">9:02</div>
+    </div> -->
+
+
+     <!-- ******************main-content 1******************************* -->
+     <div class="f-col main-content" id="m-content-1">
+       
+        <div class="content-top-1 f-row">
+            <img src="./img/Path 20505.svg" class="content-top-img">
+            <i class="fa fa-angle-left yellow" style="font-size:28px;padding:8px;"></i>
+            <div class="content-top-font white">15 مارسالاثنين</div>
+            <i class="fa fa-angle-right white " style="font-size:28px;padding:8px;"></i>
+        </div>  
+
+        <div class="content f-stretch-same f-row-r">
+            <div class="face">                </div>
+            <div class="f-col"> 
+                <div class="content-font">مع راسمCross-training</div>
+                <div class="content-font">Al-sahafa male : 4:00-5:00</div>
+                <div class="content-font">9/10</div>
+            </div>
+            <div class="f-align-c">
+            <i class="fa fa-angle-left dir-btn"></i>
+            </div>
+        </div>
+
+        <div class="content f-stretch-same f-row-r">
+            <div class="face">                </div>
+            <div class="f-col"> 
+                <div class="content-font">مع راسمCross-fit</div>
+                <div class="content-font">Al-sahafa male : 4:00-5:00</div>
+                <div class="content-font">7/10</div>
+            </div>
+            <div class="f-align-c">
+            <i class="fa fa-angle-left dir-btn"></i>
+            </div>
+        </div>
+
+        <div class="content f-stretch-same f-row-r">
+            <div class="face">                </div>
+            <div class="f-col"> 
+                <div class="content-font">مع راسمCross-training</div>
+                <div class="content-font">Al-sahafa male : 4:00-5:00</div>
+                <div class="content-font">0/10</div>
+            </div>
+            <div class="f-align-c">
+            <i class="fa fa-angle-left dir-btn"></i>
+            </div>
+        </div>
+
+        <div class="content f-stretch-same f-row-r">
+            <div class="face">                </div>
+            <div class="f-col"> 
+                <div class="content-font">مع كورنلياقة بدنية</div>
+                <div class="content-font">Al-sahafa male : 4:00-5:00</div>
+                <div class="content-font ">9/10</div>
+            </div>
+            <div class="f-align-c">
+            <i class="fa fa-angle-left dir-btn"></i>
+            </div>
+        </div>
+
+       
+    </div>
+
+<div id ="m-contents">
+    <!-- ******************main-content 1******************************* -->
+    <div class="f-col main-content" id="m-content-2">
+       <div class="par-cont">
+            <div class="content1-top-1 f-col">
+                <img src="./img/Group 12621.png" class="content1-top-img">
+                <div class="content1-top-font white">تدريب على الجري</div>
+                <div class="f-stretch-same">
+                    <div class="f-col">
+                        <div class="f-row-r">
+                            <div class="content1-small-img">
+                                <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                </div>
+                            </div>
+                            <div class=" content1-small-font white">#345422</div>
+                        </div>
+                        <div class="f-row-r">
+                            <div class="content1-small-img">
+                                <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                </div>
+                            </div>
+                            <div class=" content1-small-font white">13.00 - 14.00</div>
+                        </div>
+                    </div>
+
+                    <div class="f-col">
+                        <div class="f-row-r">
+                            <div class="content1-small-img">
+                                <div class="content1-square"><img src="./img/Mask Group 38.png">
+                                </div>
+                            </div>
+                            <div class=" content1-small-font white">أحمد سمير عبد الرحمن</div>
+                        </div>
+                        <div class="f-row-r">
+                            <div class="content1-small-img">
+                                <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                </div>
+                            </div>
+                            <div class=" content1-small-font white">11-06-2023</div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <div class="par-btn">
+                    <button class="content1-button1 back-grey yellow" onclick="changePage()">تقييم الحصة</button>
+                </div>
+            </div>  
+        </div>
+       
+
+
+       
+    </div>
+
+     <!-- ******************main-content 2******************************* -->
+     <div class="f-col main-content" id="m-content2-2">
+        <div class="par-cont">
+             <div class="content1-top-1 f-col">
+                 <img src="./img/Group 12621.png" class="content1-top-img">
+                 <div class="content1-top-font white">تدريب على الجري</div>
+                 <div class="f-stretch-same">
+                     <div class="f-col">
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">#345422</div>
+                         </div>
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">13.00 - 14.00</div>
+                         </div>
+                     </div>
+ 
+                     <div class="f-col">
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Mask Group 38.png">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">أحمد سمير عبد الرحمن</div>
+                         </div>
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">11-06-2023</div>
+                         </div>
+                     </div>
+ 
+                     
+                    </div>
+                 <!-- <div class="par-btn">
+                     <button class="content1-button1 back-grey yellow" onclick="changePage()">تقييم الحصة</button>
+                 </div> -->
+                 </div>  
+             </div>
+        
+ 
+ 
+        
+        </div>
+    
+     <!-- ******************main-content 3******************************* -->
+     <div class="f-col main-content" id="m-content3-2">
+        <div class="par-cont">
+             <div class="content1-top-1 f-col">
+                 <img src="./img/Group 12621.png" class="content1-top-img">
+                 <div class="content1-top-font white">تدريب على الجري</div>
+                 <div class="f-stretch-same">
+                     <div class="f-col">
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">#345422</div>
+                         </div>
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">13.00 - 14.00</div>
+                         </div>
+                     </div>
+ 
+                     <div class="f-col">
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Mask Group 38.png">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">أحمد سمير عبد الرحمن</div>
+                         </div>
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">11-06-2023</div>
+                         </div>
+                     </div>
+ 
+                     
+                    </div>
+                 <!-- <div class="par-btn">
+                     <button class="content1-button1 back-grey yellow" onclick="changePage()">تقييم الحصة</button>
+                 </div> -->
+                 </div>  
+             </div>
+        
+             
+ 
+        
+        </div>
+    
+
+     <!-- ******************main-content 4******************************* -->
+     <div class="f-col main-content" id="m-content4-2">
+        <div class="par-cont">
+             <div class="content1-top-1 f-col">
+                 <img src="./img/Group 12621.png" class="content1-top-img">
+                 <div class="content1-top-font white">تدريب على الجري</div>
+                 <div class="f-stretch-same">
+                     <div class="f-col">
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">#345422</div>
+                         </div>
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">13.00 - 14.00</div>
+                         </div>
+                     </div>
+ 
+                     <div class="f-col">
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Mask Group 38.png">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">أحمد سمير عبد الرحمن</div>
+                         </div>
+                         <div class="f-row-r">
+                             <div class="content1-small-img">
+                                 <div class="content1-square"><img src="./img/Path 20505.svg" style="margin-left:4px;margin-top:3px;">
+                                 </div>
+                             </div>
+                             <div class=" content1-small-font white">11-06-2023</div>
+                         </div>
+                     </div>
+ 
+                     
+                    </div>
+                 <!-- <div class="par-btn">
+                     <button class="content1-button1 back-grey yellow" onclick="changePage()">تقييم الحصة</button>
+                 </div> -->
+                 </div>  
+             </div>
+        
+ 
+ 
+        
+        </div>
+    </div>
+
+        <!-- *************************menu part**************************** -->
+        <div class="tab f-stretch-same f-row-r">
+            <div class="tab-piece">
+                <button class="tab-button selected-now" onclick="openPage()">
+                    <div class="f-col">
+                        <div class="f-align-r">
+                            <img src="./img/Path 20505.svg" style="width:15px;height:15px;">
+                        </div>
+                        <div class="tab-font">الحصص</div>
+                    </div>
+                </button> 
+            </div>
+            <div class="tab-piece">
+                <button class="tab-button" onclick="openPage()">
+                    <div class="f-col">
+                        <div class="f-align-r">
+                            <img src="./img/Path 20506.svg" style="width:15px;height:15px;">
+                        </div>
+                        <div class="tab-font">المنتجات</div>
+                    </div>
+                </button> 
+            </div>
+            <div class="tab-piece">
+                <button class="tab-button" onclick="openPage()">
+                    <div class="f-col">
+                        <div class="f-align-r">
+                            <img src="./img/Path 20584.svg" style="width:15px;height:15px;">
+                        </div>
+                        <div class="tab-font">التدريب الشخصي</div>
+                    </div>
+                </button> 
+            </div>
+            <div class="tab-piece">
+                <button class="tab-button" onclick="openPage()">
+                    <div class="f-col">
+                        <div class="f-align-r">
+                        <img src="./img/Path 20505.svg" style="width:15px;height:15px;">
+                         </div>
+                        <div class="tab-font">الاشتراكات</div>
+                    </div>
+                </button> 
+            </div>
+            <div class="tab-piece">
+                <button class="tab-button" onclick="openPage()">
+                    <div class="f-col">
+                        <div class="f-align-r">
+                            <img src="./img/Path 20507.svg" style="width:15px;height:15px;">
+                            </div>
+                        <div class="tab-font">البروفايل</div>
+                    </div>
+                </button> 
+            </div>
+        </div>
+
+       
+
+
+    </div>
+   
+</body>
+</html>
