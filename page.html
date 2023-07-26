@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./css/mainStyle.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<script>
+    function openPage(num) {
+        for(let i=1;i<=num;i++)
+        {
+            let str = "btn"+i;
+            const element = document.getElementsByClassName("str");
+            if(i <num)
+            element.classList.add("selected"); 
+            if(i ==num)
+            element.classList.add("selected-now") 
+         }
+    }
+</script> 
+<body>
+   <div class="main f-col">
+        <div class="tab f-row-r ">
+            <div class="f-stretch sub-list">
+               <button class="tablinks tab-btn btn1 selected-now" onclick="openPage(1)">
+                    <div class="f-align-c f-stretch">
+                        <i class="fa fa-angle-left" style="font-size:16px;margin-left:50px;"></i>    
+                        <div class="small-font" style="margin-left:46px;">الجنس</div>
+                        <div class="circle f-align-c f-align-r">1</div>
+                    </div>
+                </button> 
+            </div>
+            <div class="sub-list ">
+                <button class="tablinks tab-btn " onclick="openCity(event, 'Paris')">Paris</button>
+            </div>
+            <div class="sub-list ">
+                <button class="tablinks tab-btn" onclick="openCity(event, 'Paris')">Paris</button>
+            </div>
+            <div class="sub-list ">
+                <button class="tablinks tab-btn" onclick="openCity(event, 'Paris')">Paris</button>
+            </div>
+            <div class="sub-list ">
+                <button class="tablinks tab-btn" onclick="openCity(event, 'Paris')">Paris</button>
+            </div>
+
+                
+        </div>
+        <div class="parent">
+            <div class="content f-col">
+                <div class="f-align-r">
+                     <div class="big-font" style="margin-top: 21px;">الجنس</div>
+                 </div>
+                 <div class="f-align-r">
+                    <div class="tiny-font" style="margin-top: 4px;">الرجاء اختيار جنسك:</div>
+                 </div>
+                 <div class="f-align-r">
+                    <div class="f-align-r" style="margin-top:43px;">
+                        <div class="container">
+                            <img src="./source/1.jpg" alt="Avatar" class="image">
+                            <div class="overlay f-align-c">
+                              <div class="x-large-font">ذكر</div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <img src="./source/2.jpg" alt="Avatar" class="image">
+                            <div class="overlay f-align-r">
+                                <div class="x-large-font">ذكر</div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="f-align-r">
+                    <div class="f-align-c">
+                        <button class="normal-btn yellow clip btn1">التالي</button> 
+                    </div>
+                 </div>
+            </div>
+        </div>
+   </div>
+
+
+    
+</body>
+</html>
