@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./css/border.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script>
+        function generatePoly(s, length) {
+        var a = s[0]*length + 'px';
+        var b = s[1]*length + 'px';
+        var c = s[2]*length + 'px';
+        var d = s[3]*length + 'px';
+        return 'polygon(' + [
+            a+' 0px',
+          'calc(100% - '+ b +') 0px',
+          '100% '+ b,
+          '100% calc(100% - '+ c +')',
+             'calc(100% - '+ c + ') 100%',
+         d + ' 100%',
+          '0 calc(100% - '+ d +')',
+          '0 '+ a
+        ].join(', ') + ')';
+    }
+    function generateSmallPoly(s, length,weight) {
+        if (s[0]==0)
+            var a = s[0]*length+weight + 'px';
+        else var a = s[0]*length + 'px';
+        if (s[1]==0)
+            var b = s[1]*length+weight + 'px';
+        else var b = s[1]*length + 'px';
+        if (s[2]==0)
+            var c = s[2]*length+weight + 'px';
+        else var c = s[2]*length + 'px';
+        if (s[3]==0)
+            var d = s[3]*length+weight + 'px';
+        else var d = s[3]*length + 'px';
+        var e0 = weight;
+        var se= e0 + 'px';
+        var stre= 'calc(100% - '+ weight +'px)'
+        return 'polygon(' + [
+            a+' '+se,
+          'calc(100% - '+ b +')'+' '+se,
+          stre +' '+ b,
+          stre+' '+'calc(100% -'+' '+ c +')',
+        'calc(100% -'+' '+ c + ')'+' '+stre,
+         d + ' '+stre,
+          se+' calc(100% -'+' '+ d +')',
+          se+' '+ a
+        ].join(', ') + ')';
+    }
+    function drawPloygonBorder(){
+             s=[1,1,1,1];
+            length = 15;
+            weight = 1;
+            position =[100,100];
+            widhei = [300,300];
+            color = "#FFFFFF";
+            backscolor ="#121212";
+            
+            mainelement = document.getElementById("myDIV");
+            document.getElementById("demo").innerHTML=mainelement;
+                parelement = mainelement.parentElement;
+                document.getElementById("demo").innerHTML="I have changed!";
+                 if (mainelement.style.width == parelement.style.width)
+                 {
+                    let tops = position[0]+"px";
+                    let lefts = position[1]+"px";
+                    let widths = widhei[0]+"px";
+                    let heights = widhei[1]+"px";
+                    mainelement.style.top = tops;
+                    mainelement.style.left =lefts;
+                    mainelement.style.width = widths;
+                    mainelement.style.height = heights;
+                    mainelement.style.backgroundColor =color;
+                    mainelement.style.clipPath =generateSmallPoly(s,length,weight);
+                    parelement.style.clipPath=generatePoly(s,length);
+                    parelement.style.backgroundColor=backscolor;
+                    parelement.style.width = widths;
+                    parelement.style.height = heights;
+                 }
+    
+    }
+        </script>
+    
+    </head>
+    <body>
+        <button id="click me" onclick="drawPloygonBorder()">Draw Polygon</button>
+        <p id="demo">dkkkkkk</p>
+        <div class="parent">
+            <div class="Idborder" id="myDIV">
+
+            </div>
+        </div>
+       
+    </body>
+</html>
