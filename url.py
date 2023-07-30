@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 import os
 from zipfile import ZipFile
+
 from bs4 import BeautifulSoup
 import zipfile
 from PySide6.QtWidgets import(
