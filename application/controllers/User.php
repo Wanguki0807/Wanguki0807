@@ -20,6 +20,9 @@ class User extends CI_Controller
 		$c=$this->input->post('course');
 
 		$this->load->model('Register_Model');
+		$this->form_validation->set_rules('name', 'Name', 'trim|required|min_length[4]|max_length[10]');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+
 		$this->Register_Model->registerInfo($n,$e,$p,$m,$c);
 		
 		}	
