@@ -1,5 +1,3 @@
-#please send me your skype address and Id. Please talk in there.. because , when I upload file to upwork, it 
-#sends me  privacy message... I didn`t want stop my account. I sent you my Info before.
 
 import csv
 import mysql.connector as msql
@@ -77,12 +75,6 @@ class MainWindow(QMainWindow):
         
 
 
-
-
-
-
-
-
     def insertData(self):
         ################  create database   ############################
         try:
@@ -90,15 +82,13 @@ class MainWindow(QMainWindow):
             #                     password='')
            
             conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=RON\SQLEXPRESS;'
+                      'Server=DESKTOP-FB1QUQB;'
                       'Database=SDRS;'
-                      'UID=SDRSDB;'
-                      'PWD=!@QWas12;'
+                    #   'UID=SDRSDB;'
+                    #   'PWD=!@QWas12;'
+                    'Trusted_Connection=yes;'
                       )
-            if conn.is_connected():
-                cursor = conn.cursor()
-                cursor.execute("CREATE DATABASE newDatabase")
-                print("Database is created")
+            cursor = conn.cursor()
         except Error as e:
             print("Error while connecting to MySQL", e)
         ##################    file open   ##############################
@@ -120,50 +110,42 @@ class MainWindow(QMainWindow):
                 CreateDBQuery = CreateDBQuery + ' ' + strs + ')'
             else:
                 CreateDBQuery = CreateDBQuery + ' ' +  strs + ','
-        try:
-            conn = msql.connect(host='localhost', database='newDatabase', user='root', password='')
-            if conn.is_connected():
-                cursor = conn.cursor()
-                cursor.execute("select database();")
-                record = cursor.fetchone()
-                print("You're connected to database: ", record)
-                sqlrs = 'DROP TABLE IF EXISTS '+ self.mainName +';'
-                cursor.execute(sqlrs)
-                print('Creating table....')
 
-                cursor.execute(CreateDBQuery)
-                print("Table is created....")
+        cursor = conn.cursor()
+        sqlrs = 'DROP TABLE IF EXISTS '+ self.mainName +';'
+        cursor.execute(sqlrs)
+        print('Creating table....')
 
-            query ='insert into '+ self.mainName + ' ('
-            j=0
-            for heads in header:
-                j = j+1
-                if j == num:
-                    query= query + heads +')'
-                else:
-                    query= query + heads +','
-            query= query +' VALUES ' 
-            number = 1   
-            for row in rows:
-                
-                s=str(row)
-                s = s.replace('[','(')
-                s = s.replace(']',')')
-                squery = query + s
-                cursor.execute(squery)
-                
-                sss = str(number) +" data inserted in Databae!"
-                number = number+1
-                print (sss)
-                self.desctext.setText(self.txt)
-                conn.commit()
+        cursor.execute(CreateDBQuery)
+        print("Table is created....")
 
-            conn.close()
-            self.desctext.setText('Converting completed! ') 
-            print('Converting completed')
-        except Error as e:
-                    print("Error while connecting to MySQL", e)
+        query ='insert into '+ self.mainName + ' ('
+        j=0
+        for heads in header:
+            j = j+1
+            if j == num:
+                query= query + heads +')'
+            else:
+                query= query + heads +','
+        query= query +' VALUES ' 
+        number = 1   
+        for row in rows:
+            
+            s=str(row)
+            s = s.replace('[','(')
+            s = s.replace(']',')')
+            squery = query + s
+            cursor.execute(squery)
+            
+            sss = str(number) +" data inserted in Databae!"
+            number = number+1
+            print (sss)
+            self.desctext.setText(self.txt)
+            conn.commit()
 
+        conn.close()
+        self.desctext.setText('Converting completed! ') 
+        print('Converting completed')
 app = QApplication(sys.argv)
 window = MainWindow()
 window.setGeometry(100,100,600,300)
