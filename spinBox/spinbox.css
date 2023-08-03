@@ -1,0 +1,53 @@
+input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button 
+        {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+.around {
+  display:flex;
+  flex-direction:row;
+  border-bottom:1px solid rgb(246, 243, 243);
+  border-radius:3px;
+  background:black;
+  padding:1px;
+  width:300px;
+  height:30px;
+  align-items: center;
+}
+
+input {
+   flex-grow:1;
+  border:none;
+  background:black;
+  color:white;
+  text-align: right;
+}
+input:focus {
+  outline: none;
+}
+.around:hover { 
+  outline: 1px solid rgb(134, 134, 135) 
+}
+
+.upArrow, .downArrow{
+    background-color: black;
+  border:none;
+  color:white;
+  min-width:17px;
+  min-height:17px;
+}
+.upArrow:hover, .downArrow:hover{
+    opacity:0.8
+}
+.upArrow:active, .downArrow:active{
+    opacity:0.5
+}
+.downArrow{
+    background-image:url("./png/caret-down-fill.svg");
+}
+.upArrow {
+    background-image:url("./png/caret-up-fill.svg"); 
+    margin-right:5px;
+}
