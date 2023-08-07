@@ -109,11 +109,11 @@ class MainWindow(QMainWindow):
             #                     password='')
            
             conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=DESKTOP-FB1QUQB;'
+                      'Server=AMSBBSQL2016;'
                       'Database=SDRS;'
-                    #   'UID=SDRSDB;'
-                    #   'PWD=!@QWas12;'
-                    'Trusted_Connection=yes;'
+                      'UID=SDRSDB;'
+                      'PWD=!@QWas12;'
+                    # 'Trusted_Connection=yes;'
                       )
             cursor = conn.cursor()
         except Error as e:
@@ -140,7 +140,7 @@ class MainWindow(QMainWindow):
                 CreateDBQuery = CreateDBQuery + ' ' + strs + ')'
             else:
                 CreateDBQuery = CreateDBQuery + ' ' +  strs + ','
-
+        CreateDBQuery = CreateDBQuery.replace('-','_')
         cursor = conn.cursor()
         sqlrs = 'DROP TABLE IF EXISTS '+ self.mainName +';'
         cursor.execute(sqlrs)
@@ -168,6 +168,7 @@ class MainWindow(QMainWindow):
             s = s.replace('[','(')
             s = s.replace(']',')')
             squery = query + s
+            squery = squery.replace('-','_')
             try:
                 cursor.execute(squery)
                 self.updatedCount =self.updatedCount + 1
