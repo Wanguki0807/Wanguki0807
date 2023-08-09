@@ -1,0 +1,18 @@
+<div class="attendance-qrcode-container modal-container j-front-page">
+    <div class="j-inner-wrap">
+        <app-polygon-border-div specify = "1" [cornerStatus] = "[0,1,0,1]" borderColor="var(--dl-color-primary-3days)" weight="3">
+            <div class="j-photo-img" style="background-image: url(/assets/img/person1.png);"></div>
+        </app-polygon-border-div>
+        <p class="text-white text-center j-tinySubtitle-size p-2">
+            أحمد سمير
+        </p>
+        <p class="j-tnSize gdTColor p-2">
+            {{'share_your_code' | translate}}
+        </p>
+        <app-polygon-border-div specify = "1" [cornerStatus] = "[1,1,1,1]" cutRange="24" class="mt-5">
+            <div class="j-qrcode-wrap">
+                <div class="j-qr-img" style="background-image: url(/assets/img/calendar.svg);"></div>
+            </div>
+        </app-polygon-border-div>
+    </div>
+</div>
