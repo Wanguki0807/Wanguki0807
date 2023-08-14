@@ -15,7 +15,6 @@ except Error as e:
 empdata = pd.read_csv('./FinishedProduct.csv', index_col=False, delimiter = ',')
 empdata.head()
 print (empdata)
-
 try:
     conn = msql.connect(host='localhost', database='employee', user='root', password='')
     if conn.is_connected():
