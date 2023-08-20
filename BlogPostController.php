@@ -7,23 +7,17 @@ use Illuminate\Http\Request;
 
 class BlogPostController extends Controller
 {
-    
     public function index()
     {
         //
         $posts = BlogPost::all();
         return view('blog.index',['posts' => $posts]);
     }
-
-   
     public function create()
     {
         //
         return view('blog.create');
-    }
-
-   
-    public function store(Request $request)
+    } public function store(Request $request)
     {
         //
         $newPost = BlogPost::create([
