@@ -1,6 +1,9 @@
+import logging
 
 import csv
 import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import sys
 from datetime import date
 import wx
@@ -152,30 +155,45 @@ class MainWindow(QMainWindow):
         self.txt = self.mainCSVPath
         self.desctext.setText(self.txt)
     def sendEmail(self):
-        message = f"""\
-        Subject: CSV FILE CONVERT Mail
-        To: {self.emailAddress}
-        From: {self.sender}
+        print('Sending Email.....')
+        # Email configuration
+        smtp_server = 'sandbox.smtp.mailtrap.io'
+        smtp_port = 587
+        sender_email = 'convertCSV@gmail.com'
+        # sender_password = 'your_email_password'
+        recipient_email = self.emailAddress
+        subject = 'Test Email'
+        message = 'This is a test email sent from Python.'
+        html = '''
+            <html>
+                <body style="text-align:center; background-color:black; color:white;">
+                    <h1 >File Convert Result</h1>
+                    <h2>Hello, welcome to your report!</h2>
+                    <h3>At '''+ str(self.CreatedTime) +''' ,Some products were added or updated from '''+ str(self.mainCSVName)+''' file.</h3>
+                    <p>'''+ str(self.allRowCount) +''' products were changed in your database!</p>
+                    <p>'''+str(self.insertedCount) +''' products were inserted in your database!</p>
+                    <p>'''+str(self.updatedCount) +''' products were updated in your database!</p>
+                    <p>'''+str(self.failedCount) +''' products were failed in your database!</p>
+                    
+                </body>
+            </html>
+            '''
 
-        Hi there, There was update to your database.
-
-        Some CSV files were inserted into sql files: {self.mainCSVName}
-        {self.insertedCount} products were inserted . 
-        {self.updatedCount} products were Updated .
-        {self.failedCount} products were failed .
+        # Create the email message
+        msg = MIMEMultipart()
+        msg['From'] = sender_email
+        msg['To'] = recipient_email
+        msg['Subject'] = subject
+        # msg.attach(MIMEText(message, 'plain'))
+        msg.attach(MIMEText(html, "html"))
+        # Connect to the SMTP server
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()  # Start a secure connection
+            server.login("b12b658d4ac33f", "b53b654fcf6289")  # Login to the server
+            server.sendmail(sender_email, recipient_email, msg.as_string())  # Send the email
+            print('Email sent successfully!')
+      
         
-        Everything is good.
-        
-        Bye!
-        
-        From kevin
-        """
-
-        with smtplib.SMTP("sandbox.smtp.mailtrap.io", 2525) as server:
-            server.login("b12b658d4ac33f", "b53b654fcf6289")
-            server.sendmail(self.sender, self.emailAddress, message)
-        print('Email sent successfully!')
-
         
     def changeDBName(self,dbName):
         if(dbName.find("BonelessBeef")!=-1):
@@ -193,8 +211,8 @@ class MainWindow(QMainWindow):
     def insertData(self):
         ################  create database   ############################
         try:
-            conn = msql.connect(host='localhost',database='sdrk', user='root',  
-                                password='') 
+            # conn = msql.connect(host='localhost',database='sdrk', user='root',  
+            #                     password='') 
            
             # conn = pyodbc.connect('Driver={SQL Server};'
             #             'Server=pc-kcy;'
@@ -203,11 +221,14 @@ class MainWindow(QMainWindow):
             #             # 'PWD=!@QWas12;'
             #             'Trusted_Connection=yes;'
             #                 )
-            # str = '\'Driver={SQL Server};\''+' \'Server='+self.DBServer+';\''+' \'Database='+self.DBName + ';\''+' \'UID='+self.DBuser +';\'' + ' \'PWD='+self.DBpassword +';\''
-            # conn = pyodbc.connect(str)
+            str = '\'Driver={SQL Server};\''+' \'Server='+self.DBServer+';\''+' \'Database='+self.DBName + ';\''+' \'UID='+self.DBuser +';\'' + ' \'PWD='+self.DBpassword +';\''
+            conn = pyodbc.connect(str)
             cursor = conn.cursor()
         except Error as e:
             print("Error while connecting to MySQL", e)
+            
+        logging.basicConfig(filename="log.txt", level=logging.DEBUG,
+                    format="%(asctime)s %(message)s")  
         ##################    file open   ##############################
         
        
@@ -392,7 +413,22 @@ class MainWindow(QMainWindow):
         cursor.execute(mainquery)
         print("Log file exactly updated")
         conn.commit()
-        self.sendEmail()    
+        str1 = self.mainCSVName +' file was inserted in database'
+        str2 = str(self.insertedCount) +' products were inserted in database'
+        str3 = str(self.updatedCount) +' products were updated in database'
+        str4 = str(self.failedCount) +' file were failed in database'
+        str5 = "email was sent to " + self.emailAddress
+        
+        if (self.emailEnabled.value== 2):
+            self.sendEmail() 
+            logging.info(str5) 
+      
+        logging.info(str1)
+        logging.info(str2)
+        logging.info(str3)
+        logging.info(str4)
+ 
+        
         #     rows.append(row)
         # #################  create table ################################
         # num = len(header)
