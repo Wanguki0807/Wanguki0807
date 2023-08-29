@@ -1,15 +1,16 @@
 
 import csv
-import mysql.connector as msql
-from mysql.connector import Error
+
 import sys
 from datetime import date
 import wx
-import os
+import os       
 import pyodbc 
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog as fd
+import mysql.connector as msql
+from mysql.connector import Error
 from PySide6.QtWidgets import(
     QApplication,
     QMainWindow,
@@ -37,6 +38,14 @@ class MainWindow(QMainWindow):
     failedCount = 0
     mainLabName = ''
     emailEnabled = 1
+    usingFile = ''
+    
+    #-------------------
+    emailAddress=''
+    DBServer =''
+    DBName =''
+    DBuser=''
+    DBpassword=''
 
     def __init__(self):
         super().__init__()
@@ -92,11 +101,34 @@ class MainWindow(QMainWindow):
 
 #################################################################
     def display_selection(self):
+        self.openData()
         selection = self.LabList.currentText()
         self.emailEnabled = self.sendemail.checkState()
         self.mainLabName = selection
-        self.insertData()
-       
+        for path in self.uploadFileNames:
+            self.mainCSVPath = path
+            head, tail = os.path.split(self.mainCSVPath)
+            self.mainCSVName = tail
+            self.mainName = tail.replace('.csv','')
+            self.changeDBName(self.mainName)
+            self.insertData()
+            self.desctexts()
+    def openData(self):
+        file = open('./config.csv')
+        csvreader = csv.reader(file)
+        header=[]
+        header = next(csvreader) 
+        colNum = len(header)
+        rows=[]
+        for row in csvreader:
+            rows.append(row)
+        autoSetting =rows[0]
+        self.emailAddress = autoSetting[0]
+        self.DBServer = autoSetting[1]
+        self.DBName = autoSetting[2]
+        self.DBuser = autoSetting[3]
+        self.DBpassword = autoSetting[4]
+        
     def selectFiles(self):
        
         filetypes = (
@@ -110,14 +142,7 @@ class MainWindow(QMainWindow):
                 initialdir='/',
                 filetypes=filetypes)
         # self.mainCSVPath = self.uploadFileNames[1]
-        for path in self.uploadFileNames:
-            self.mainCSVPath = path
-            head, tail = os.path.split(self.mainCSVPath)
-            self.mainCSVName = tail
-            self.mainName = tail.replace('.csv','')
-            self.changeDBName(self.mainName)
         
-            self.desctexts()
             # self.uploadBtn.setText(self.mainCSVPath)
            
 
@@ -141,45 +166,53 @@ class MainWindow(QMainWindow):
     def insertData(self):
         ################  create database   ############################
         try:
-            # conn = msql.connect(host='localhost', user='root',  
-            #                     password='')
+            conn = msql.connect(host='localhost',database='sdrk', user='root',  
+                                password='') 
            
-            conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=DESKTOP-UAA342V;'
-                      'Database=SDRS;'
-                    #   'UID=SDRSDB;'
-                    #   'PWD=!@QWas12;'
-                    'Trusted_Connection=yes;'
-                      )
+            # conn = pyodbc.connect('Driver={SQL Server};'
+            #             'Server=pc-kcy;'
+            #             'Database=SDRKS;'
+            #             # 'UID=SDRSDB;'
+            #             # 'PWD=!@QWas12;'
+            #             'Trusted_Connection=yes;'
+            #                 )
+            # str = '\'Driver={SQL Server};\''+' \'Server='+self.DBServer+';\''+' \'Database='+self.DBName + ';\''+' \'UID='+self.DBuser +';\'' + ' \'PWD='+self.DBpassword +';\''
+            # conn = pyodbc.connect(str)
             cursor = conn.cursor()
         except Error as e:
             print("Error while connecting to MySQL", e)
         ##################    file open   ##############################
+        
+       
+        
+        # stmt = "SHOW TABLES LIKE "+self.mainName
+        # cursor.execute(stmt)
+        # result = cursor.fetchone()
         file = open(self.mainCSVPath)
         csvreader = csv.reader(file)
         header=[]
+        j=0
+        Sample = 0
         header = next(csvreader) 
         colNum = len(header)
-        rows=[]
-        for row in csvreader:
-            rows.append(row)
-        #################  create table ################################
         num = len(header)
+        extra = ",FileID INT NULL, LastUpdated VARCHAR(50) NULL, UpdatedBy  VARCHAR(50) NULL, Remarks VARCHAR(50) NULL)" 
+        # if result == false:
+    # if there is no table in database, create dateabase
         i = 0
-        
-        stmt = "SHOW TABLES LIKE "+self.mainName
-        cursor.execute(stmt)
-        result = cursor.fetchone()
-        
-        extra = "FileID INT NULL, LastUpdated DATETIME NULL, UpdatedBy  VARCHAR(50) NULL, Remarks NVARCHAR(MAX) NULL)" 
-        # if result:
-            
-        # else:
-        CreateDBQuery ="CREATE TABLE "+ self.mainName + " ("
+        CreateDBQuery ="CREATE TABLE IF NOT EXISTS "+ self.mainName + " ("
         for columns in header:
             i=i+1
             if columns =='':
                 columns = "UnNamed_" + str(i)
+            if columns =='Material_Description':
+                columns = "Material_Code"
+            if ( columns =='E_coli_O157_H7' or  columns =='E_Coli_O157_H7') :
+                columns = "E_coli_0157_H7"
+            if columns =='E_Coli_O157_H7_Cl':
+                columns = "E_Coli_0157_H7_Cl"
+            if columns =='Status':
+               columns = "StatusN"
             strs = columns + '  varchar(100)'
             if i == num:
                 CreateDBQuery = CreateDBQuery + ' ' + strs + extra
@@ -194,49 +227,157 @@ class MainWindow(QMainWindow):
         cursor.execute(CreateDBQuery)
         print("Table is created....")
 
-        query ='insert into '+ self.mainName + ' ('
-        j=0
+# then now there is an database in Database#
+# insert data into table
+        
         for heads in header:
-            j = j+1
-            if heads =='':
-                heads = "UnNamed_" + str(j)
-            if j == num:
-                query= query + heads + extra
-            else:
-                query= query + heads +','
-        query= query +' VALUES ' 
-        number = 1   
-        for row in rows:
-            self.allRowCount = self.allRowCount + 1
-            row = row[0:colNum]
-            s=str(row)
-            s = s.replace('[','(')
-            s = s.replace(']',')')
-            squery = query + s
-            squery = squery.replace('-','_')
-            try:
-                cursor.execute(squery)
-                self.updatedCount =self.updatedCount + 1
-                self.insertedCount =self.insertedCount + 1
-            except Error as e:
-                self.failedCount = self.failedCount + 1
-                print ("Warning::",e)
-                pass
-            sss = str(number) +" data inserted in Databae!"
-            number = number+1
-            print (sss)
-            self.desctext.setText(self.txt)
-            conn.commit()
-
+            j=j+1
+            if heads =='Sample_Number':
+                Sample = j-1
             
-            self.desctext.setText('Converting completed! ') 
-            today = date.today()
-            self.CreatedTime = today.strftime("%d/%m/%Y")
-            cursor.execute("insert into File_Uploaded(Filename,UploadTimeStamp,LabName,TotalRecords,RecordsInserted,RecordsUpdated,Recordsfailed,Remarks) values (?,?,?,?,?,?,?,?)",\
-                self.mainCSVName,self.CreatedTime,self.mainLabName,self.allRowCount,self.insertedCount,self.updatedCount,self.failedCount,'')
-            print("Log file exactly updated")
+        rows=[]
+        dataExtra = ",FileID , LastUpdated , UpdatedBy  , Remarks ) " 
+        updateDataExtra = ",FileID =%s , LastUpdated =%s , UpdatedBy=%s  , Remarks=%s " 
+        for row in csvreader:
+            rows.append(row)
+        insertNumber =1
+        updateNumber =1
+        isbool = 0
+        for row in rows:
+            # rows.append(row)
+            
+            numSample = row[Sample]
+            numSample = numSample.replace('-','_')
+            isNewQuery = "Select * from "+ self.mainName +" where Sample_Number = '"+numSample + "'" 
+            isNew = cursor.execute(isNewQuery)
+            data="error" #initially just assign the value
+            for i in cursor:
+                data=i #if cursor has no data then loop will not run and value of data will be 'error'
+            if data=="error":
+                query ='insert into '+ self.mainName + ' ('
+                j=0
+                for heads in header:
+                    j = j+1
+                    if heads =='':
+                        heads = "UnNamed_" + str(j)
+                    if heads =='Material_Description':
+                       heads = "Material_Code"
+                    if ( heads =='E_coli_O157_H7' or  heads =='E_Coli_O157_H7') :
+                        heads = "E_coli_0157_H7"
+                    if heads =='E_Coli_O157_H7_Cl':
+                        heads = "E_Coli_0157_H7_Cl"
+                    if heads =='Status':
+                        heads = "StatusN"
+                    if j == num:
+                        query= query + heads + dataExtra
+                    else:
+                        query= query + heads +','
+                query= query +' VALUES ' 
+                today = date.today()
+                insertTime = today.strftime("%d/%m/%Y") 
+                # for row in rows:
+                # self.allRowCount = self.allRowCount + 1
+                row = row[0:colNum]
+                row[Sample] = row[Sample].replace('-','_')
+                s=str(row)
+                s = s.replace('[','(')
+                s = s.replace(']',' ')
+                squery = query + s + ',\''+'ID'+'\',' +'\''+ insertTime +'\',' +'\''+ self.mainCSVName +'\''+ ',\'NULL\' )' 
+                squery = squery.replace('-','_')
+                try:
+                    cursor.execute(squery)
+                    # self.updatedCount =self.updatedCount + 1
+                    self.insertedCount =self.insertedCount + 1
+                except Error as e:
+                    self.failedCount = self.failedCount + 1
+                    print ("Warning::",e)
+                    pass
+                sss = str(insertNumber) +" data inserted in Database!"
+                insertNumber = insertNumber+1
+                print (sss)
+                self.desctext.setText(self.txt)
+                conn.commit()
+                print("**********************************************")
+            else:
+                today = date.today()
+                insertTime = today.strftime("%d/%m/%Y") 
+                row = row[0:colNum]
+                if(isbool == 0):
+                    header.append("FileID")
+                    header.append("LastUpdated")
+                    header.append("UpdatedBy")
+                    header.append("Remarks")
+                    isbool = 1
+                row.append("ID")
+                row.append(insertTime)
+                row.append(self.mainCSVName)
+                row.append("NULL")
+                query = "update "+ self.mainName + " Set "
+                j=0
+                
+                for heads in header:
+                    if heads =='':
+                        heads = "UnNamed_" + str(j)
+                    if heads =='Material_Description':
+                       heads = "Material_Code"
+                    if ( heads =='E_coli_O157_H7' or  heads =='E_Coli_O157_H7') :
+                        heads = "E_coli_0157_H7"
+                    if heads =='E_Coli_O157_H7_Cl':
+                        heads = "E_Coli_0157_H7_Cl"
+                    if heads =='Status':
+                        heads = "StatusN"
+                    updatequery = query+ heads + "=%s  where Sample_Number = %s"
+                    updatequery = updatequery.replace('-','_')
+                    val = row[j]
+                    j = j+1
+                    
+                    try:
+                        cursor.execute(updatequery,(val,numSample))
+                        
+                    except Error as e:
+                        self.failedCount = self.failedCount + 1
+                        print ("Warning::",e)
+                        pass
+           
+                self.updatedCount =self.updatedCount + 1
+                sss = str(updateNumber) +" data updated in Database!"
+                updateNumber = updateNumber+1
+                print (sss)
+                self.desctext.setText(self.txt)
+                conn.commit()
+                print("**********************************************")
+                        
+            
+            
+            
+        self.desctext.setText('Converting completed! ') 
+        today = date.today()
+        self.CreatedTime = today.strftime("%d/%m/%Y")
+        # cursor.execute("insert into File_Uploaded(Filename,UploadTimeStamp,LabName,TotalRecords,RecordsProcessed,RecordsDuplicate,Remarks,RecordsInserted,\
+        #                RecordsUpdated,Recordsfailed) values (?,?,?,?,?,?,?,?,?,?)",\
+        #     self.mainCSVName,self.CreatedTime,self.mainLabName,self.allRowCount,self.allRowCount-self.failedCount,'0',"NuLL",self.insertedCount,
+        #     self.updatedCount,self.failedCount)
+        self.allRowCount = self.insertedCount + self.updatedCount + self.failedCount
+        mainquery ="insert into File_Uploaded(Filename,UploadTimeStamp,LabName,TotalRecords,RecordsProcessed,\
+            RecordsDuplicate,Remarks,RecordsInserted,RecordsUpdated,Recordsfailed) Values "
+        values=[ self.mainCSVName,self.CreatedTime,self.mainLabName,self.allRowCount,self.allRowCount-self.failedCount,'0',"NuLL",self.insertedCount,
+            self.updatedCount,self.failedCount]
+        strVal= str(values)
+        strVal = strVal.replace('[','(')
+        strVal = strVal.replace(']',') ')
+        mainquery = mainquery + strVal
+        cursor.execute(mainquery)
+        print("Log file exactly updated")
         conn.commit()
+            
+        #     rows.append(row)
+        # #################  create table ################################
+        # num = len(header)
+        # i = 0
 
+
+
+       
         conn.close()
         print('Converting completed')
         self.mainCSVPath = ''
