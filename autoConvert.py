@@ -1,6 +1,6 @@
 
 import csv
-
+import smtplib
 import sys
 from datetime import date
 import wx
@@ -46,6 +46,8 @@ class MainWindow(QMainWindow):
     DBName =''
     DBuser=''
     DBpassword=''
+    sender = "nikitaskorobogatovvw@gmail.com"
+
 
     def __init__(self):
         super().__init__()
@@ -149,6 +151,31 @@ class MainWindow(QMainWindow):
     def desctexts(self):
         self.txt = self.mainCSVPath
         self.desctext.setText(self.txt)
+    def sendEmail(self):
+        message = f"""\
+        Subject: CSV FILE CONVERT Mail
+        To: {self.emailAddress}
+        From: {self.sender}
+
+        Hi there, There was update to your database.
+
+        Some CSV files were inserted into sql files: {self.mainCSVName}
+        {self.insertedCount} products were inserted . 
+        {self.updatedCount} products were Updated .
+        {self.failedCount} products were failed .
+        
+        Everything is good.
+        
+        Bye!
+        
+        From kevin
+        """
+
+        with smtplib.SMTP("sandbox.smtp.mailtrap.io", 2525) as server:
+            server.login("b12b658d4ac33f", "b53b654fcf6289")
+            server.sendmail(self.sender, self.emailAddress, message)
+        print('Email sent successfully!')
+
         
     def changeDBName(self,dbName):
         if(dbName.find("BonelessBeef")!=-1):
@@ -353,10 +380,6 @@ class MainWindow(QMainWindow):
         self.desctext.setText('Converting completed! ') 
         today = date.today()
         self.CreatedTime = today.strftime("%d/%m/%Y")
-        # cursor.execute("insert into File_Uploaded(Filename,UploadTimeStamp,LabName,TotalRecords,RecordsProcessed,RecordsDuplicate,Remarks,RecordsInserted,\
-        #                RecordsUpdated,Recordsfailed) values (?,?,?,?,?,?,?,?,?,?)",\
-        #     self.mainCSVName,self.CreatedTime,self.mainLabName,self.allRowCount,self.allRowCount-self.failedCount,'0',"NuLL",self.insertedCount,
-        #     self.updatedCount,self.failedCount)
         self.allRowCount = self.insertedCount + self.updatedCount + self.failedCount
         mainquery ="insert into File_Uploaded(Filename,UploadTimeStamp,LabName,TotalRecords,RecordsProcessed,\
             RecordsDuplicate,Remarks,RecordsInserted,RecordsUpdated,Recordsfailed) Values "
@@ -369,15 +392,11 @@ class MainWindow(QMainWindow):
         cursor.execute(mainquery)
         print("Log file exactly updated")
         conn.commit()
-            
+        self.sendEmail()    
         #     rows.append(row)
         # #################  create table ################################
         # num = len(header)
         # i = 0
-
-
-
-       
         conn.close()
         print('Converting completed')
         self.mainCSVPath = ''
@@ -389,6 +408,9 @@ class MainWindow(QMainWindow):
         self.mainName = ''
         self.colNum = 0
         self.txt = ''
+
+
+    
 app = QApplication(sys.argv)
 window = MainWindow()
 window.setGeometry(100,100,600,300)
