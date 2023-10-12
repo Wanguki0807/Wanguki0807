@@ -33,7 +33,6 @@ class MainWindow(QMainWindow):
     insertedCount =0
     updatedCount = 0
     failedCount = 0
-
     def __init__(self):
         super().__init__()
 ##############################################################
@@ -50,7 +49,6 @@ class MainWindow(QMainWindow):
         self.layout1 = QHBoxLayout()
         self.layout1.addWidget(self.desctxt)
         self.layout1.addWidget(self.desctext)
-        # self.desctext.textChanged.connect(self.desctexts)
 
         self.vlay = QVBoxLayout(self)
         self.vlay.addLayout(self.layout)
