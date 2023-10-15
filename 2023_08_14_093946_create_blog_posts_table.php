@@ -18,3 +18,5 @@ class CreateBlogPostsTable extends Migration
         Schema::dropIfExists('blog_posts');
     }
 }
+it is changed by 2023-10-16
+    
