@@ -29,8 +29,7 @@ var server = http.createServer(function (req, res) {   //create web server
         res.write(JSON.stringify({ message: "Hello World"}));  
         res.end();  
 }
-        res.end('Invalid Request!');
-
+       res.end('Invalid Request!');
 });
 
 server.listen(5000); //6 - listen for any incoming requests
