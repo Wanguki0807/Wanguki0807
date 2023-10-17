@@ -1,5 +1,4 @@
 var http = require('http'); // Import Node.js core module
-
 var server = http.createServer(function (req, res) {   //create web server
     if (req.url == '/') { //check the URL of the current request
         
