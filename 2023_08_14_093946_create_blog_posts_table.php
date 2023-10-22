@@ -16,4 +16,3 @@ class CreateBlogPostsTable extends Migration
         Schema::dropIfExists('blog_posts');
     }
 }
-it is
